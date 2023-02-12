@@ -1,4 +1,3 @@
-
 const imageContainer = document.getElementById('image-container');
 const loader = document.getElementById('loader');
 
@@ -9,6 +8,11 @@ const count = 15;
 const apiKey = 'idt9E-ruMMS2N8-H8amic8pYo7Jvbk0l6FVsHbeMmcs';
 const apiUrl = `https://api.unsplash.com/photos/random/?client_id=${apiKey}&count=${count}`
 
+function setAttribute(element, attributes) {
+    for (const key in attributes) {
+        element.setAttribute(key, attributes[key]);
+}
+}
 
 // Create Elements for Links & Photos, add to DOM
 function displayPhotos() {
@@ -16,18 +20,23 @@ function displayPhotos() {
     photosArray.forEach((photo) => {
         // Create <a> to link to unpslash
         const item = document.createElement('a');
-        item.setAttribute('href', photo.links.html);
-        item.setAttribute('target', '_blank');
+        setAttribute(item, {
+            href: photo.links.html,
+            target: '_blank',
+        });
         // Create <img> for photo
         const img = document.createElement('img');
-        img.setAttribute('src', photo.urls.regular);
-        img.setAttribute('alt', photo.alt_description);
-        img.setAttribute('title', photo.alt_description);
         // Put <img> inside <a> element, and put both inside our
         // image container element
+        setAttribute(img, {
+            src: photo.urls.regular,
+            alt: photo.alt_description,
+            title: photo.alt_description
+        })
         item.appendChild(img);
         imageContainer.appendChild(item);
 });
+}
 
 // Get photos from Unsplash API
 async function getPhotos() {
@@ -42,4 +51,3 @@ async function getPhotos() {
 
 // On load
 getPhotos();
-}
